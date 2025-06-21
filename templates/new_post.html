@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}New Post - Anteiku{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: rgba(0,0,0,0.3); border-radius: 15px;">
+        <h1 style="color: var(--gold); margin-bottom: 0.5rem;">
+            <i class="fas fa-feather-alt"></i> Brew a New Story
+        </h1>
+        <p style="color: var(--cream); opacity: 0.8;">
+            Share your coffee wisdom with the world... ☕
+        </p>
+    </div>
+    
+    <form method="POST" style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 15px; border: 1px solid var(--gold);">
+        <div style="margin-bottom: 1.5rem;">
+            <label for="title" style="display: block; color: var(--gold); margin-bottom: 0.5rem; font-weight: 500; font-size: 1.1rem;">
+                <i class="fas fa-heading"></i> Post Title
+            </label>
+            <input type="text" id="title" name="title" required placeholder="e.g., The Perfect Morning Brew"
+                   style="width: 100%; padding: 1rem; border: 2px solid var(--coffee-medium); border-radius: 8px; 
+                          background: rgba(0,0,0,0.6); color: var(--cream); font-size: 1.1rem;">
+        </div>
+        
+        <div style="margin-bottom: 2rem;">
+            <label for="content" style="display: block; color: var(--gold); margin-bottom: 0.5rem; font-weight: 500; font-size: 1.1rem;">
+                <i class="fas fa-file-alt"></i> Content (Markdown Supported)
+            </label>
+            <textarea id="content" name="content" required rows="15" placeholder="# Your Story Begins Here...
+
+Write your coffee chronicles using **markdown** formatting!
+
+## Some examples:
+- **Bold text** for emphasis
+- *Italic text* for subtlety
+- `code snippets` for brewing instructions
+- > Blockquotes for coffee wisdom
+
+Remember: Every cup has a story... ☕"
+                      style="width: 100%; padding: 1rem; border: 2px solid var(--coffee-medium); border-radius: 8px; 
+                             background: rgba(0,0,0,0.6); color: var(--cream); font-size: 1rem; font-family: 'Courier New', monospace; line-height: 1.6; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button type="submit" class="btn btn-gold" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                <i class="fas fa-coffee"></i> Publish Post
+            </button>
+            <a href="{{ url_for('admin') }}" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(218, 165, 32, 0.1); border-radius: 10px; border: 1px solid rgba(218, 165, 32, 0.3);">
+        <h3 style="color: var(--gold); margin-bottom: 1rem;">
+            <i class="fas fa-info-circle"></i> Markdown Quick Reference
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; color: var(--cream); font-size: 0.9rem;">
+            <div>
+                <strong>Headers:</strong><br>
+                <code># H1</code><br>
+                <code>## H2</code><br>
+                <code>### H3</code>
+            </div>
+            <div>
+                <strong>Text Formatting:</strong><br>
+                <code>**bold**</code><br>
+                <code>*italic*</code><br>
+                <code>`code`</code>
+            </div>
+            <div>
+                <strong>Lists:</strong><br>
+                <code>- Item 1</code><br>
+                <code>- Item 2</code><br>
+                <code>1. Numbered</code>
+            </div>
+            <div>
+                <strong>Other:</strong><br>
+                <code>> Blockquote</code><br>
+                <code>[Link](url)</code><br>
+                <code>![Image](url)</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.2);
+    }
+    
+    input::placeholder, textarea::placeholder {
+        color: rgba(245, 245, 220, 0.5);
+    }
+    
+    code {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        color: var(--gold);
+        font-family: 'Courier New', monospace;
+    }
+</style>
+{% endblock %}

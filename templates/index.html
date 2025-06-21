@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>Anteiku <span style="font-size: 0.7em;">(あんていく)</span></h1>
+    <p>Welcome to our cozy corner of the internet, where coffee meets philosophy and every brew has a story to tell.</p>
+    <p class="coffee-quote">"In this world, the only thing we can do is enjoy the coffee while we can." ☕</p>
+</div>
+
+{% if posts %}
+    <div class="post-grid">
+        {% for post in posts %}
+            <article class="post-card">
+                <h2 class="post-title">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
+                </h2>
+                <div class="post-excerpt">
+                    {% set excerpt = post.content[:200] %}
+                    {% if post.content|length > 200 %}
+                        {{ excerpt|markdown|striptags }}...
+                    {% else %}
+                        {{ excerpt|markdown|striptags }}
+                    {% endif %}
+                </div>
+                <div class="post-meta">
+                    <span><i class="fas fa-calendar"></i> {{ post.created_at[:10] }}</span>
+                    {% if post.updated_at != post.created_at %}
+                        <span><i class="fas fa-edit"></i> Updated</span>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="hero">
+        <h2>The coffee shop is quiet today...</h2>
+        <p>No posts yet, but the aroma of possibility fills the air. ☕</p>
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+            <i class="fas fa-ghost"></i> Even ghouls need their coffee break sometimes.
+        </p>
+    </div>
+{% endif %}
+{% endblock %}

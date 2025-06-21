@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Anteiku (あんていく) - Coffee Chronicles{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --coffee-dark: #2C1810;
+            --coffee-medium: #8B4513;
+            --coffee-light: #D2691E;
+            --cream: #F5F5DC;
+            --red-accent: #8B0000;
+            --gold: #DAA520;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, var(--coffee-dark) 0%, var(--coffee-medium) 100%);
+            min-height: 100vh;
+            color: var(--cream);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo::before {
+            content: '☕';
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+            background: rgba(218, 165, 32, 0.1);
+        }
+        
+        main {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            border-radius: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--gold), var(--coffee-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--cream);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .coffee-quote {
+            font-style: italic;
+            color: var(--gold);
+            margin-top: 1rem;
+        }
+        
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .post-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.2);
+        }
+        
+        .post-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+        
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .post-excerpt {
+            color: var(--cream);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .post-meta {
+            font-size: 0.9rem;
+            color: var(--coffee-light);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .flash-messages {
+            margin: 1rem 0;
+        }
+        
+        .flash-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+        
+        .flash-success {
+            background: rgba(0, 128, 0, 0.2);
+            border-color: #00ff00;
+            color: #90EE90;
+        }
+        
+        .flash-error {
+            background: rgba(139, 0, 0, 0.2);
+            border-color: var(--red-accent);
+            color: #FFB6C1;
+        }
+        
+        .flash-info {
+            background: rgba(218, 165, 32, 0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(45deg, var(--coffee-medium), var(--coffee-light));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.4);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(45deg, var(--gold), #FFD700);
+            color: var(--coffee-dark);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(45deg, var(--red-accent), #DC143C);
+        }
+        
+        footer {
+            background: var(--coffee-dark);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gold);
+        }
+        
+        .ghoul-easter-egg {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .post-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="{{ url_for('index') }}" class="logo">Anteiku</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a></li>
+                {% if session.logged_in %}
+                    <li><a href="{{ url_for('admin') }}"><i class="fas fa-cog"></i> Admin</a></li>
+                    <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Anteiku Coffee Blog - Where every cup tells a story ☕</p>
+            <p class="ghoul-easter-egg">"Coffee is a language in itself" - The Manager 👻</p>
+        </div>
+    </footer>
+</body>
+</html>

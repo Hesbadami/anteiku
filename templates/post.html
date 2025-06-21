@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Anteiku{% endblock %}
+
+{% block content %}
+<article style="max-width: 800px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: rgba(0,0,0,0.3); border-radius: 15px;">
+        <h1 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">{{ post.title }}</h1>
+        <div style="color: var(--coffee-light); font-size: 1rem;">
+            <span><i class="fas fa-calendar"></i> Posted on {{ post.created_at[:10] }}</span>
+            {% if post.updated_at != post.created_at %}
+                <span style="margin-left: 1rem;"><i class="fas fa-edit"></i> Updated on {{ post.updated_at[:10] }}</span>
+            {% endif %}
+        </div>
+    </header>
+    
+    <div class="post-content" style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 15px; line-height: 1.8;">
+        {{ post.content|markdown|safe }}
+    </div>
+    
+    {% if session.logged_in %}
+        <div style="text-align: center; margin-top: 2rem; padding: 1rem;">
+            <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-gold" style="margin-right: 1rem;">
+                <i class="fas fa-edit"></i> Edit Post
+            </a>
+            <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-danger" 
+               onclick="return confirm('Are you sure? Even the finest blends can\'t be recovered once spilled... ☕')">
+                <i class="fas fa-trash"></i> Delete Post
+            </a>
+        </div>
+    {% endif %}
+    
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('index') }}" class="btn">
+            <i class="fas fa-arrow-left"></i> Back to Coffee Chronicles
+        </a>
+    </div>
+</article>
+
+<style>
+    .post-content h1, .post-content h2, .post-content h3 {
+        color: var(--gold);
+        margin: 1.5rem 0 1rem 0;
+    }
+    
+    .post-content h1 {
+        font-size: 2rem;
+        border-bottom: 2px solid var(--gold);
+        padding-bottom: 0.5rem;
+    }
+    
+    .post-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .post-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .post-content p {
+        margin-bottom: 1rem;
+        color: var(--cream);
+    }
+    
+    .post-content blockquote {
+        border-left: 4px solid var(--gold);
+        margin: 1rem 0;
+        padding: 1rem 1.5rem;
+        background: rgba(218, 165, 32, 0.1);
+        font-style: italic;
+    }
+    
+    .post-content code {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: var(--gold);
+    }
+    
+    .post-content pre {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1rem 0;
+        border: 1px solid var(--coffee-medium);
+    }
+    
+    .post-content pre code {
+        background: none;
+        padding: 0;
+        color: var(--cream);
+    }
+    
+    .post-content ul, .post-content ol {
+        margin: 1rem 0;
+        padding-left: 2rem;
+    }
+    
+    .post-content li {
+        margin-bottom: 0.5rem;
+        color: var(--cream);
+    }
+    
+    .post-content a {
+        color: var(--gold);
+        text-decoration: underline;
+    }
+    
+    .post-content a:hover {
+        color: var(--coffee-light);
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+</style>
+{% endblock %}
